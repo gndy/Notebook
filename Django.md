@@ -1,4 +1,5 @@
-`# models.py (the database tables)
+`
+# models.py (the database tables)
 
 from django.db import models
 
@@ -37,7 +38,8 @@ urlpatterns = patterns('',
 <li>{{ book.name }}</li>
 {% endfor %}
 </ul>
-</body></html>`
+</body></html>
+`
 
 + models.py 文件主要用一个 Python 类来描述数据表。 称为 模型(model) 。 运用这个类，你可以通过简单的 Python 的代码来创建、检索、更新、删除 数据库中的记录而无需写一条又一条的SQL语句。
 + views.py文件包含了页面的业务逻辑。 latest_books()函数叫做视图
