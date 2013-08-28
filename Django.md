@@ -1,45 +1,45 @@
-`
-# models.py (the database tables)
+<blockquote>
+    # models.py (the database tables)
 
-from django.db import models
+    from django.db import models
 
-class Book(models.Model):
-    name = models.CharField(max_length=50)
-    pub_date = models.DateField()
-
-
-# views.py (the business logic)
-
-from django.shortcuts import render_to_response
-from models import Book
-
-def latest_books(request):
-    book_list = Book.objects.order_by('-pub_date')[:10]
-    return render_to_response('latest_books.html', {'book_list': book_list})
+    class Book(models.Model):
+        name = models.CharField(max_length=50)
+        pub_date = models.DateField()
 
 
-# urls.py (the URL configuration)
+    # views.py (the business logic)
 
-from django.conf.urls.defaults import *
-import views
+    from django.shortcuts import render_to_response
+    from models import Book
 
-urlpatterns = patterns('',
-    (r'^latest/$', views.latest_books),
-)
+    def latest_books(request):
+        book_list = Book.objects.order_by('-pub_date')[:10]
+        return render_to_response('latest_books.html', {'book_list': book_list})
 
 
-# latest_books.html (the template)
+    #urls.py (the URL configuration)
 
-<html><head><title>Books</title></head>
-<body>
-<h1>Books</h1>
-<ul>
-{% for book in book_list %}
-<li>{{ book.name }}</li>
-{% endfor %}
-</ul>
-</body></html>
-`
+    from django.conf.urls.defaults import *
+    import views
+
+    urlpatterns = patterns('',
+        (r'^latest/$', views.latest_books),
+    )
+
+
+    #latest_books.html (the template)
+
+    <html><head><title>Books</title></head>
+    <body>
+    <h1>Books</h1>
+    <ul>
+    {% for book in book_list %}
+    <li>{{ book.name }}</li>
+    {% endfor %}
+    </ul>
+    </body></html>
+    </blockquote>
 
 + models.py 文件主要用一个 Python 类来描述数据表。 称为 模型(model) 。 运用这个类，你可以通过简单的 Python 的代码来创建、检索、更新、删除 数据库中的记录而无需写一条又一条的SQL语句。
 + views.py文件包含了页面的业务逻辑。 latest_books()函数叫做视图
