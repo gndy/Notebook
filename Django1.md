@@ -129,3 +129,79 @@
 
 
       
+    用两个大括号括起来的文字（例如 {{ person_name }} ）称为 变量(variable) 。这意味着在此处插入指定变量的值。 如何指定变量的值呢？ 稍后就会说明。4
+
+    被大括号和百分号包围的文本(例如 {% if ordered_warranty %} )是 模板标签(template tag) 。标签(tag)定义比较明确，即： 仅通知模板系统完成某些工作的标签。
+
+    这个例子中的模板包含一个for标签（ {% for item in item_list %} ）和一个if 标签（{% if ordered_warranty %} ）
+
+    for标签类似Python的for语句，可让你循环访问序列里的每一个项目。 if 标签，正如你所料，是用来执行逻辑判断的。 在这里，tag标签检查ordered_warranty值是否为True。如果是，模板系统将显示{% if ordered_warranty %}和{% else %}之间的内容；否则将显示{% else %}和{% endif %}之间的内容。{% else %}是可选的。
+
+    最后，这个模板的第二段中有一个关于filter过滤器的例子，它是一种最便捷的转换变量输出格式的方式。 如这个例子中的{{ship_date|date:”F j, Y” }}，我们将变量ship_date传递给date过滤器，同时指定参数”F j,Y”。date过滤器根据参数进行格式输出。 过滤器是用管道符(|)来调用的，具体可以参见Unix管道符。
+
+
+该模板是一段添加了些许变量和模板标签的基础 HTML 。
+    用两个大括号括起来的文字（例如 {{ person_name }} ）称为 变量(variable) 。这意味着在此处插入指定变量的值。 如何指定变量的值呢？ 稍后就会说明。4
+
+    被大括号和百分号包围的文本(例如 {% if ordered_warranty %} )是 模板标签(template tag) 。标签(tag)定义比较明确，即： 仅通知模板系统完成某些工作的标签。
+
+    这个例子中的模板包含一个for标签（ {% for item in item_list %} ）和一个if 标签（{% if ordered_warranty %} ）
+
+    for标签类似Python的for语句，可让你循环访问序列里的每一个项目。 if 标签，正如你所料，是用来执行逻辑判断的。 在这里，tag标签检查ordered_warranty值是否为True。如果是，模板系统将显示{% if ordered_warranty %}和{% else %}之间的内容；否则将显示{% else %}和{% endif %}之间的内容。{% else %}是可选的。
+
+    最后，这个模板的第二段中有一个关于filter过滤器的例子，它是一种最便捷的转换变量输出格式的方式。 如这个例子中的{{ship_date|date:”F j, Y” }}，我们将变量ship_date传递给date过滤器，同时指定参数”F j,Y”。date过滤器根据参数进行格式输出。 过滤器是用管道符(|)来调用的，具体可以参见Unix管道符。
+
+
+Django 模板含有很多内置的tags和filters,我们将陆续进行学习. 附录F列出了很多的tags和filters的列表.
+
+
+=====================================================
+###在Python代码中使用Django模板的最基本方式如下：###
+
+* 可以用原始的模板代码字符串创建一个 Template 对象， Django同样支持用指定模板文件路径的方式来创建 Template 对象;
+* 调用模板对象的render方法，并且传入一套变量context。它将返回一个基于模板的展现字符串，模板中的变量和标签会被context值替换。
+
+    >>> from django import template
+    >>> t = template.Template('My name is {{ name }}.')
+    >>> c = template.Context({'name': 'Adrian'})
+    >>> print t.render(c)
+    My name is Adrian.
+    >>> c = template.Context({'name': 'Fred'})
+    >>> print t.render(c)
+    My name is Fred.
+
+
+
+###模板渲染###
+
+一旦你创建一个 Template 对象，你可以用 context 来传递数据给它。 一个context是一系列变量和它们值的集合。
+dsds
+
+###Ordering notice###
+
+    
+ontext在Django里表现为 Context 类，在 django.template 模块里。 她的构造函数带有一个可选的参数： 一个字典映射变量和它们的值。 调用 Template 对象 的 render() 方法并传递context来填充模板
+
+*我们必须指出的一点是，t.render(c)返回的值是一个Unicode对象，不是普通的Python字符串。*
+
+
+###无论何时我们都可以像这样使用同一模板源渲染多个context，只进行 一次模板创建然后多次调用render()方法渲染会更为高效：###
+
+    # Bad
+    for name in ('John', 'Julie', 'Pat'):
+        t = Template('Hello, {{ name }}')
+        print t.render(Context({'name': name}))
+
+    # Good
+    t = Template('Hello, {{ name }}')
+    for name in ('John', 'Julie', 'Pat'):
+        print t.render(Context({'name': name}))
+
+
+###深度变量的查找###
+
+可以在context中调用对象的属性和方法，但是只能是没有参数的方法。
+       
+       
+       
+       
