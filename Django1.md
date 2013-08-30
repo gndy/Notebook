@@ -161,13 +161,13 @@ Django 模板含有很多内置的tags和filters,我们将陆续进行学习. �
 * 可以用原始的模板代码字符串创建一个 Template 对象， Django同样支持用指定模板文件路径的方式来创建 Template 对象;
 * 调用模板对象的render方法，并且传入一套变量context。它将返回一个基于模板的展现字符串，模板中的变量和标签会被context值替换。
 
-    >>> from django import template
-    >>> t = template.Template('My name is {{ name }}.')
-    >>> c = template.Context({'name': 'Adrian'})
-    >>> print t.render(c)
+    from django import template
+    t = template.Template('My name is {{ name }}.')
+     c = template.Context({'name': 'Adrian'})
+     print t.render(c)
     My name is Adrian.
-    >>> c = template.Context({'name': 'Fred'})
-    >>> print t.render(c)
+     c = template.Context({'name': 'Fred'})
+     print t.render(c)
     My name is Fred.
 
 
