@@ -198,3 +198,109 @@ ontext在Django里表现为 Context 类，在 django.template 模块里。 她�
 
 可以在context中调用对象的属性和方法，但是只能是没有参数的方法。
        
+       
+------------------------------------------------------------------
+##在视图中使用模板##
+
+
+    from django.template import Template, Context
+    from django.http import HttpResponse
+    import datetime
+
+    def current_datetime(request):
+        now = datetime.datetime.now()
+        t = Template("<html><body>It is now {{ current_date }}.</body></html>")
+        html = t.render(Context({'current_date': now}))
+        return HttpResponse(html)
+
+ 模板仍然嵌入在Python代码里，并未真正的实现数据与表现的分离。 让我们将模板置于一个 单独的文件 中，并且让视图加载该文件来解决此问题。
+
+ 假设文件保存在 /home/djangouser/templates/mytemplate.html 中的话，代码就会像下面这样:
+ from django.template import Template, Context
+from django.http import HttpResponse
+import datetime
+
+    def current_datetime(request):
+        now = datetime.datetime.now()
+        # Simple way of using templates from the filesystem.
+        # This is BAD because it doesn't account for missing files!
+        fp = open('/home/djangouser/templates/mytemplate.html')
+        t = Template(fp.read())
+        fp.close()
+        html = t.render(Context({'current_date': now}))
+        return HttpResponse(html)
+
+该方法还算不上简洁：
+
+*它没有对文件丢失的情况做出处理。 如果文件 mytemplate.html 不存在或者不可读， open() 函数调用将会引发 IOError 异常。
+*这里对模板文件的位置进行了硬编码。 如果你在每个视图函数都用该技术，就要不断复制这些模板的位置。 更不用说还要带来大量的输入工作！
+*它包含了大量令人生厌的重复代码。 与其在每次加载模板时都调用 open() 、 fp.read() 和 fp.close() ，还不如做出更佳选择。
+
+###模板加载###
+为了减少模板加载调用过程及模板本身的冗余代码，Django 提供了一种使用方便且功能强大的 API ，用于从磁盘中加载模板，
+
+如果你是一步步跟随我们学习过来的，马上打开你的settings.py配置文件，找到TEMPLATE_DIRS这项设置吧。 它的默认设置是一个空元组（tuple），加上一些自动生成的注释。
+
+    TEMPLATE_DIRS = (
+        # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
+        # Always use forward slashes, even on Windows.
+        # Don't forget to use absolute paths, not relative paths.
+    )
+
+选择一个目录用于存放模板并将其添加到 TEMPLATE_DIRS 中：
+
+    TEMPLATE_DIRS = (
+        '/home/django/mysite/templates',
+    )
+
+最省事的方式是使用绝对路径（即从文件系统根目录开始的目录路径）。 如果想要更灵活一点并减少一些负面干扰，可利用 Django 配置文件就是 Python 代码这一点来动态构建 TEMPLATE_DIRS 的内容，如： 例如：
+
+    import os.path
+
+    TEMPLATE_DIRS = (
+        os.path.join(os.path.dirname(__file__), 'templates').replace('\\','/'),
+    )
+
+这个例子使用了神奇的 Python 内部变量 __file__ ，该变量被自动设置为代码所在的 Python 模块文件名。 `` os.path.dirname(__file__)`` 将会获取自身所在的文件，即settings.py 所在的目录，然后由os.path.join 这个方法将这目录与 templates 进行连接。如果在windows下，它会智能地选择正确的后向斜杠”“进行连接，而不是前向斜杠”/”。
+
+    from django.template.loader import get_template
+    from django.template import Context
+    from django.http import HttpResponse
+    import datetime
+
+    def current_datetime(request):
+        now = datetime.datetime.now()
+        t = get_template('current_datetime.html')
+        html = t.render(Context({'current_date': now}))
+        return HttpResponse(html)
+
+此范例中，我们使用了函数 django.template.loader.get_template() ，而不是手动从文件系统加载模板。 该 get_template() 函数以模板名称为参数，在文件系统中找出模块的位置，打开文件并返回一个编译好的 Template 对象。
+
+###render_to_response()###
+
+Django为此提供了一个捷径，让你一次性地载入某个模板文件，渲染它，然后将此作为 HttpResponse返回。
+
+下面就是使用 render_to_response() 重新编写过的 current_datetime 范例。
+
+    from django.shortcuts import render_to_response
+    import datetime
+
+    def current_datetime(request):
+        now = datetime.datetime.now()
+          return render_to_response('current_datetime.html', {'current_date': now})
+
+###get_template()中使用子目录###
+
+只需在调用 get_template() 时，把子目录名和一条斜杠添加到模板名称之前，如：
+
+    t = get_template('dateapp/current_datetime.html')
+
+---------------------------------------------------------
+###include 模板标签###
+
+在讲解了模板加载机制之后，我们再介绍一个利用该机制的内建模板标签： {% include %} 。该标签允许在（模板中）包含其它的模板的内容。 标签的参数是所要包含的模板名称，可以是一个变量，也可以是用单/双引号硬编码的字符串。 每当在多个模板中出现相同的代码时，就应该考虑是否要使用 {% include %} 来减少重复。
+
+##模板继承##
+
+但在实际应用中，你将用 Django 模板系统来创建整个 HTML 页面。 这就带来一个常见的 Web 开发问题： 在整个网站中，如何减少共用页面区域（比如站点导航）所引起的重复和冗余代码？
+解决该问题的传统做法是使用 服务器端的 includes ，你可以在 HTML 页面中使用该指令将一个网页嵌入到另一个中。 事实上， Django 通过刚才讲述的 {% include %} 支持了这种方法。 但是用 Django 解决此类问题的首选方法是使用更加优雅的策略—— 模板继承 。
