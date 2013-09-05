@@ -123,4 +123,75 @@
         "website" varchar(200) NOT NULL
     );
 
-*“每个数据库表对应一个类”这条规则的例外情况是多对多关系。 在我们的范例模型中， Book 有一个 多对多字段 叫做 authors 。 该字段表明一本书籍有一个或多个作者，但 Book 数据库表却并没有 authors 字段。 相反，Django创建了一个额外的表（多对多连接表）来处理书籍和作者之间的映射关系。*
+**“每个数据库表对应一个类”这条规则的例外情况是多对多关系。 在我们的范例模型中， Book 有一个 多对多字段 叫做 authors 。 该字段表明一本书籍有一个或多个作者，但 Book 数据库表却并没有 authors 字段。 相反，Django创建了一个额外的表（多对多连接表）来处理书籍和作者之间的映射关系。**
+
+最后需要注意的是，我们并没有显式地为这些模型定义任何主键。 除非你单独指明，否则Django会自动为每个模型生成一个自增长的整数主键字段每个Django模型都要求有单独的主键-id
+
+###模型安装###
+
+完成这些代码之后，现在让我们来在数据库中创建这些表。 要完成该项工作，第一步是在 Django 项目中 激活 这些模型。 将 books app 添加到配置文件的已安装应用列表中即可完成此步骤。
+
+再次编辑 settings.py 文件， 找到 INSTALLED_APPS 设置。 INSTALLED_APPS 告诉 Django 项目哪些 app 处于激活状态。 缺省情况下如下所示：
+
+    INSTALLED_APPS = (
+        'django.contrib.auth',
+        'django.contrib.contenttypes',
+        'django.contrib.sessions',
+        'django.contrib.sites',
+    )
+**再次注意app和project的区别，这里installed apps 默认的是django自带的apps，而我们自己创建的apps要手动的添加进来。**
+
+'mysite.books'指示我们正在编写的books app。 INSTALLED_APPS 中的每个app都使用 Python的路径描述，包的路径，用小数点“.”间隔。
+
+现在我们可以创建数据库表了。 首先，用下面的命令验证模型的有效性：
+
+    python manage.py validate
+
+一旦你觉得你的模型可能有问题，运行 python manage.py validate 。 它可以帮助你捕获一些常见的模型定义错误。
+
+模型确认没问题了，运行下面的命令来生成 CREATE TABLE 语句
+
+    python manage.py sqlall books
+
+sqlall 命令并没有在数据库中真正创建数据表，只是把SQL语句段打印出来，这样你可以看到Django究竟会做些什么.可以把那些SQL语句复制到你的数据库客户端执行，或者通过Unix管道直接进行操作（例如，`` python manager.py sqlall books | psql mydb`` ）。不过，Django提供了一种更为简易的提交SQL语句至数据库的方法： `` syncdb`` 命令。
+
+    python manage.py syncdb
+
+syncdb 命令是同步你的模型到数据库的一个简单方法。 它会根据 INSTALLED_APPS 里设置的app来检查数据库， 如果表不存在，它就会创建它。 需要注意的是， syncdb 并 不能将模型的修改或删除同步到数据库；如果你修改或删除了一个模型，并想把它提交到数据库，syncdb并不会做出任何处理。
+
+如果你再次运行 python manage.py syncdb ，什么也没发生，因为你没有添加新的模型或者 添加新的app。因此，运行python manage.py syncdb总是安全的，因为它不会重复执行SQL语句。
+
+
+----------------------------------------------------------
+###插入和更新数据###
+
+    >>> p = Publisher(name='Apress',
+    ...         address='2855 Telegraph Ave.',
+    ...         city='Berkeley',
+    ...         state_province='CA',
+    ...         country='U.S.A.',
+    ...         website='http://www.apress.com/')
+
+    >>> p.save()//save()是必须的
+
+前面执行的 save() 相当于下面的SQL语句：
+
+    UPDATE books_publisher SET
+        name = 'Apress Publishing',
+        address = '2855 Telegraph Ave.',
+        city = 'Berkeley',
+        state_province = 'CA',
+        country = 'U.S.A.',
+        website = 'http://www.apress.com'
+    WHERE id = 52;
+
+**注意，并不是只更新修改过的那个字段，所有的字段都会被更新。 这个操作有可能引起竞态条件，这取决于你的应用程序**
+
+###选择对象###
+
+* 让我们来仔细看看 Publisher.objects.all() 这行的每个部分：
+* 首先，我们有一个已定义的模型 Publisher 。没什么好奇怪的： 你想要查找数据， 你就用模型来获得数据。
+* 然后，是objects属性。 它被称为管理器，我们将在第10章中详细讨论它。 目前，我们只需了解管理器管理着所有针对数据包含、还有最重要的数据查询的表格级操作。
+* 所有的模型都自动拥有一个 objects 管理器；你可以在想要查找数据时使用它。
+* 最后，还有 all() 方法。这个方法返回返回数据库中所有的记录。 尽管这个对象 看起来 象一个列表（list），它实际是一个 QuerySet 对象， 这个对象是数据库中一些记录的集合。
+
