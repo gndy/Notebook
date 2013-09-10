@@ -82,6 +82,7 @@
 
 
 ------------------------------------------------------------------------
+
 ###在你视图的任何位置，临时插入一个 assert False 来触发出错页。 然后，你就可以看到局部变量和程序语句了。###
 
 ##直接将HTML硬编码到你的视图里却并不是一个好主意##
@@ -163,11 +164,11 @@ Django 模板含有很多内置的tags和filters,我们将陆续进行学习. �
 
     from django import template
     t = template.Template('My name is {{ name }}.')
-     c = template.Context({'name': 'Adrian'})
-     print t.render(c)
+    c = template.Context({'name': 'Adrian'})
+    print t.render(c)
     My name is Adrian.
-     c = template.Context({'name': 'Fred'})
-     print t.render(c)
+    c = template.Context({'name': 'Fred'})
+    print t.render(c)
     My name is Fred.
 
 
