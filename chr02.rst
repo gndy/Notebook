@@ -173,7 +173,7 @@ Biopython有很多的解析器，基于它们所解析的文件格式，每一�
 `6 <#chapter:Bio.AlignIO>`__ 章将介绍用于序列比对的 ``Bio.AlignIO`` 。
 
 由于最主流的文件格式都有解析器整合在 ``Bio.SeqIO`` 和/或 ``Bio.AlignIO`` 中，对于一些比较罕见的或者不被人们喜爱的文件格式，要么根本就没有解析器，要么就是一些没有链接的老的解析器。请到wiki页面 `http://biopython.org/wiki/SeqIO <http://biopython.org/wiki/SeqIO>`__
-以及 `http://biopython.org/wiki/AlignIO`` <http://biopython.org/wiki/AlignIO>`__查看最新信息，或者咨询邮件列表。wiki页面上应该包含了支持文件类型的最新列表，还有一些附加的例子。
+以及 `http://biopython.org/wiki/AlignIO <http://biopython.org/wiki/AlignIO>`__ 查看最新信息，或者咨询邮件列表。wiki页面上应该包含了支持文件类型的最新列表，还有一些附加的例子。
 
 另一个查找特定解析器信息和如何很酷的使用它们的地方就是Cookbook（本教程的第 `18 <#chapter:cookbook>`__ 章）。如果你没有找到你要的信息，请考虑及时帮帮你那可怜的过劳的文档，并提交一份cookbook entry！（一旦你知道怎么做了，那就是了！）
 
