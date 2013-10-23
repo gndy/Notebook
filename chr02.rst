@@ -22,7 +22,7 @@
 控制。本教程给你展示普通的或简单的方式去处理问题以便于你能自己处理事情。想要
 学习更多替代的方法，请查看Cookbook（第 `18 <#chapter:cookbook>`__章,
 这里有一些很酷的技巧和提示），进阶部分(第 `20 <#chapter:advanced>`__章)，
-内建“文档”（通过Python help命令），或者`API 文档 <http://biopython.org/DIST/docs/api/>`__)
+内建“文档”（通过Python help命令），或者 `API 文档 <http://biopython.org/DIST/docs/api/>`__)
 或者代码本身。
 
 2.2  处理序列
@@ -89,12 +89,12 @@
 
 我们现在开始简单地介绍 ``Bio.SeqIO`` 模块——你可以在第\ `5 <#chapter:Bio.SeqIO>`__章中查看更多。
 我们从在线搜索我们的朋友——Lady Slipper Orchids——开始。为尽量保持简单，我们仅仅手动使用NCBI网站。我们先看看NCBI上的nucleotide库，使用在线的Entrez搜索
-(```http://www.ncbi.nlm.nih.gov:80/entrez/query.fcgi?db=Nucleotide`` <http://www.ncbi.nlm.nih.gov:80/entrez/query.fcgi?db=Nucleotide>`__)
+( `http://www.ncbi.nlm.nih.gov:80/entrez/query.fcgi?db=Nucleotide <http://www.ncbi.nlm.nih.gov:80/entrez/query.fcgi?db=Nucleotide>`__)
 包含Cypripedioideae所有东西（这是Lady Slipper Orchids的亚科）。
 
 当本教程最初编写时，这个搜索仅给我们找到了94条匹配的信息，我们将结果保存为FASTA格式文本文件和
-GenBank格式文本文件（文件```ls_orchid.fasta`` <http://biopython.org/DIST/docs/tutorial/examples/ls_orchid.fasta>`__
-和```ls_orchid.gbk`` <http://biopython.org/DIST/docs/tutorial/examples/ls_orchid.gbk>`__，
+GenBank格式文本文件（文件 `ls_orchid.fasta <http://biopython.org/DIST/docs/tutorial/examples/ls_orchid.fasta>`__
+和 `ls_orchid.gbk <http://biopython.org/DIST/docs/tutorial/examples/ls_orchid.gbk>`__，
 也包含在Biopython源代码包下 ``docs/tutorial/examples/`` ）。
 
 如果你现在搜索，你将会获得几百个的匹配结果！跟着教程，如果你想要看看相同的基因列表，请下载上面两个文件或者从Biopython源代码中拷贝 ``docs/examples/`` 。在\ `2.5 <#sec:connecting-with-biological-databases>`__部分我们将会看到怎样使用Python做类似的搜索。
@@ -102,7 +102,7 @@ GenBank格式文本文件（文件```ls_orchid.fasta`` <http://biopython.org/DIS
 2.4.1  简单的FASTA解析示例
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-如果你用你喜好的文本编辑器打开了lady slipper orchids的FASTA文件 ```ls_orchid.fasta`` <http://biopython.org/DIST/docs/tutorial/examples/ls_orchid.fasta>`__，
+如果你用你喜好的文本编辑器打开了lady slipper orchids的FASTA文件 `ls_orchid.fasta <http://biopython.org/DIST/docs/tutorial/examples/ls_orchid.fasta>`__，
 你会看到文件开头像这样：
 
 .. code:: verbatim
@@ -139,7 +139,7 @@ GenBank格式文本文件（文件```ls_orchid.fasta`` <http://biopython.org/DIS
 2.4.2  简单的GenBank解析示例
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-现在我们来加载一个GenBank文件```ls_orchid.gbk`` <http://biopython.org/DIST/docs/tutorial/examples/ls_orchid.gbk>`__
+现在我们来加载一个GenBank文件 `ls_orchid.gbk <http://biopython.org/DIST/docs/tutorial/examples/ls_orchid.gbk>`__
 ——注意这里的代码与上面处理FASTA文件的代码几乎完全相同——仅有的不同之处是我们改变了文件名和格式的字符串：
 
 .. code:: verbatim
@@ -169,8 +169,8 @@ GenBank格式文本文件（文件```ls_orchid.fasta`` <http://biopython.org/DIS
 
 Biopython有很多的解析器，基于它们所解析的文件格式，每一个都有自己独特的作用。第\ `5 <#chapter:Bio.SeqIO>`__章包含 ``Bio.SeqIO`` 更详细的内容，而第\ `6 <#chapter:Bio.AlignIO>`__章将介绍用于序列比对的 ``Bio.AlignIO`` 。
 
-由于最主流的文件格式都有解析器整合在 ``Bio.SeqIO`` 和/或 ``Bio.AlignIO`` 中，对于一些比较罕见的或者不被人们喜爱的文件格式，要么根本就没有解析器，要么就是一些没有链接的老的解析器。请到wiki页面 ```http://biopython.org/wiki/SeqIO`` <http://biopython.org/wiki/SeqIO>`__
-以及 ```http://biopython.org/wiki/AlignIO`` <http://biopython.org/wiki/AlignIO>`__查看最新信息，或者咨询邮件列表。wiki页面上应该包含了支持文件类型的最新列表，还有一些附加的例子。
+由于最主流的文件格式都有解析器整合在 ``Bio.SeqIO`` 和/或 ``Bio.AlignIO`` 中，对于一些比较罕见的或者不被人们喜爱的文件格式，要么根本就没有解析器，要么就是一些没有链接的老的解析器。请到wiki页面 `http://biopython.org/wiki/SeqIO <http://biopython.org/wiki/SeqIO>`__
+以及 `http://biopython.org/wiki/AlignIO`` <http://biopython.org/wiki/AlignIO>`__查看最新信息，或者咨询邮件列表。wiki页面上应该包含了支持文件类型的最新列表，还有一些附加的例子。
 
 另一个查找特定解析器信息和如何很酷的使用它们的地方就是Cookbook（本教程的第 `18 <#chapter:cookbook>`__章）。如果你没有找到你要的信息，请考虑及时帮帮你那可怜的过劳的文档，并提交一份cookbook entry！（一旦你知道怎么做了，那就是了！）
 
@@ -184,7 +184,7 @@ Biopython有从以下数据库中获取信息的代码：
 -  NCBI的 `Entrez <http://www.ncbi.nlm.nih.gov/Entrez/>`__ （和 `PubMed <http://www.ncbi.nlm.nih.gov/PubMed/>`__）
    ——见第\ `9 <#chapter:entrez>`__章。
 -  `ExPASy <http://www.expasy.org/>`__ ——见第\ `10 <#chapter:swiss_prot>`__章。
--  `SCOP <http://scop.mrc-lmb.cam.ac.uk/scop/>`__——见 `Bio.SCOP.search()`` 方法。
+-  `SCOP <http://scop.mrc-lmb.cam.ac.uk/scop/>`__——见 ``Bio.SCOP.search()`` 方法。
 
 使用模块里的代码基本上可以容易地写出与这些页面中CGI脚本交互的Python代码，因此你能很方便地获得想要的结果。在某些情况下，结果能很好地整合到Biopython解析器中从而使得提取信息更加简单。
 
@@ -194,11 +194,11 @@ Biopython有从以下数据库中获取信息的代码：
 现在你已经做到这一步，你应该对基本的Biopython有一个很好的了解，并准备好开始用它完成一些有用的工作。现在最好先完成
 阅读本教程，然后如果你可能会想看看源码以及文档。
 
-一旦你知道你想做什么，以及Biopython能完成它的库，你应该看看Cookbook（第`18 <#chapter:cookbook>`__章），
+一旦你知道你想做什么，以及Biopython能完成它的库，你应该看看Cookbook（第 `18 <#chapter:cookbook>`__章），
 在这里可能会有一些类似你工作的示例代码。
 
 如果你知道你想要做什么，但是还没弄明白怎么去做，请随时将你的问题贴出到主要的Biopython列表中（见
-```http://biopython.org/wiki/Mailing_lists`` <http://biopython.org/wiki/Mailing_lists>`__）。这不仅方便我们回答你的
+`http://biopython.org/wiki/Mailing_lists <http://biopython.org/wiki/Mailing_lists>`__）。这不仅方便我们回答你的
 问题，也有助于我们改进文档以便于它能帮到下一个和你做同样工作的人。
 
 请享受代码吧！
