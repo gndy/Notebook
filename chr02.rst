@@ -20,9 +20,9 @@
 情况有所改善，但这仍可让人沮丧，因为在理想的Python中应该只有一种正确的方式
 去解决问题。但是，这也可以成为一个真正的好处，因为它给了你很多灵活性和对库的
 控制。本教程给你展示普通的或简单的方式去处理问题以便于你能自己处理事情。想要
-学习更多替代的方法，请查看Cookbook（第 `18 <#chapter:cookbook>`__章,
-这里有一些很酷的技巧和提示），进阶部分(第 `20 <#chapter:advanced>`__章)，
-内建“文档”（通过Python help命令），或者 `API 文档 <http://biopython.org/DIST/docs/api/>`__)
+学习更多替代的方法，请查看Cookbook（第 `18 <#chapter:cookbook>`__ 章,
+这里有一些很酷的技巧和提示），进阶部分(第 `20 <#chapter:advanced>`__ 章)，
+内建“文档”（通过Python help命令），或者 `API 文档 <http://biopython.org/DIST/docs/api/>`__ )
 或者代码本身。
 
 2.2  处理序列
@@ -80,7 +80,8 @@
 经过一些阅读之后，我们发现Lady Slipper Orchids属于兰科拖鞋兰亚科并且由5个属组成：*Cypripedium*，*Paphiopedilum*，*Phragmipedium*，*Selenipedium* 和 *Mexipedium*。
 
 这已经给了我们足够多的信息来探究更多的东西。现在，让我们看看Biopython工具能起到怎样的作用。
-我们从一条从\ `2.4 <#sec:sequence-parsing>`__部分解析出来的序列开始， 但是我们稍后还是回到兰花上来——比如我们将在PubMed上搜索有关兰花的文章然后在GenBank上提取序列（第\ `9 <#chapter:entrez>`__章），从Swiss-Prot上提取特定的兰花蛋白数据（第\ `10 <#chapter:swiss_prot>`__章），最后在\ `6.4.1 <#sec:align_clustal>`__部分我们用ClustalW对兰花蛋白进行多序列比对。 
+我们从一条从 `2.4 <#sec:sequence-parsing>`__ 部分解析出来的序列开始， 但是我们稍后还是回到兰花上来——比如我们将在PubMed上搜索有关兰花的文章然后在GenBank上提取序列（第
+`9 <#chapter:entrez>`__ 章），从Swiss-Prot上提取特定的兰花蛋白数据（第\ `10 <#chapter:swiss_prot>`__ 章），最后在\ `6.4.1 <#sec:align_clustal>`__ 部分我们用ClustalW对兰花蛋白进行多序列比对。 
 
 2.4  解析序列文件格式
 ----------------------------------
